@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Интерактивная логопедическая игра для детей — тренировка звука [Ш]">
+    <title>Белка-путешественница: Звук [Ш]</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="game-container" id="gameContainer">
+        
+        <!-- Игровая сцена (полёт белки) -->
+        <section class="scene" id="scene">
+            <div class="background-layer" id="bgLayer">
+                <img src="img/bg_peterburg.png" alt="Фон уровня" class="bg-image active" id="bgImg">
+            </div>
+            
+            <div class="clouds">
+                <div class="cloud cloud-1"></div>
+                <div class="cloud cloud-2"></div>
+                <div class="cloud cloud-3"></div>
+            </div>
+
+            <div class="balloon-wrapper" id="balloonWrapper">
+                <img src="img/balloon.png" alt="Воздушный шар с белкой" class="balloon-image">
+            </div>
+        </section>
+
+        <!-- Экран «Усыпи вулкан» (скрыт по умолчанию) -->
+        <section class="volcano-screen" id="volcanoScreen" style="display: none;">
+            <div class="volcano-bg">
+                <img src="img/vulkan_bg.png" alt="Вулкан" class="volcano-bg-image">
+            </div>
+            
+            <!-- Слои дыма -->
+            <div class="smoke-container" id="smokeContainer">
+                <div class="smoke-layer smoke-1"></div>
+                <div class="smoke-layer smoke-2"></div>
+                <div class="smoke-layer smoke-3"></div>
+                <div class="smoke-layer smoke-4"></div>
+                <div class="smoke-layer smoke-5"></div>
+            </div>
+
+            <!-- Белка слева -->
+            <div class="volcano-squirrel">
+                <img src="img/squirrel_shush.png" alt="Белка шипит" class="squirrel-image">
+            </div>
+
+            <!-- Инструкция справа -->
+            <div class="volcano-instruction">
+                <div class="instruction-card">
+                    <h2>Ой, вулкан проснулся!</h2>
+                    <p>
+                        Помоги белочке усыпить вулкан. 
+                        Сделай язычок «чашечкой», прижми к верхним зубам 
+                        и <strong>шипи [Ш-Ш-Ш]</strong>, удерживая кнопку!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Кнопка по центру -->
+            <div class="volcano-center">
+                <button class="shush-button" id="shushBtn" oncontextmenu="return false;">
+                    <span class="shush-icon"></span>
+                    <span class="shush-text">Ш-Ш-Ш!</span>
+                </button>
+                <div class="calm-bar">
+                    <div class="calm-fill" id="calmFill"></div>
+                </div>
+                <p class="calm-label" id="calmLabel">Вулкан бушует!</p>
+            </div>
+        </section>
+
+        <!-- UI слой (для полёта) -->
+        <section class="ui-layer" id="uiLayer">
+            <div class="start-zone" id="startZone">
+                <button class="btn btn-primary" id="startBtn">Начать игру</button>
+            </div>
+
+            <div class="action-zone" id="actionZone" style="display: none;">
+                <button class="blow-button" id="blowBtn" oncontextmenu="return false;">
+                    <span class="blow-icon">💨</span>
+                    <span class="blow-text">Дуй! [Ш-Ш-Ш]</span>
+                </button>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- СТАРТОВЫЙ ПОПАП -->
+    <div class="popup__bg" id="startPopupBg">
+        <div class="popup" id="startPopup">
+            <button class="close-popup" id="closeStartPopup">&times;</button>
+            <div class="popup-content">
+                <img src="img/balloon.png" alt="Воздушный шар" class="popup-image">
+                <h2 class="popup-title">Путешествие белочки</h2>
+                <p class="popup-text">
+                    Белочка отправилась в путешествие на воздушном шаре. 
+                    Помоги ей лететь: сделай язычок «чашечкой», прижми к верхним зубам, 
+                    набери воздух и <strong>удерживай кнопку</strong>, 
+                    чтобы произнести [Ш-Ш-Ш] и надуть шар!
+                </p>
+                <button class="btn btn-primary" id="startPopupOk">ОК, полетели!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ПОПАП С ДОСТОПРИМЕЧАТЕЛЬНОСТЬЮ -->
+    <div class="popup__bg" id="landmarkPopupBg">
+        <div class="popup" id="landmarkPopup">
+            <button class="close-popup" id="closeLandmarkPopup">&times;</button>
+            <div class="popup-content">
+                <img src="" alt="" class="popup-image" id="landmarkImage">
+                <h2 class="popup-title" id="landmarkTitle"></h2>
+                <p class="popup-text" id="landmarkDescription"></p>
+                <button class="btn btn-primary" id="landmarkOk">Продолжить путешествие</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ФИНАЛЬНЫЙ ПОПАП (счастливый) -->
+    <div class="popup__bg" id="finalPopupBg">
+        <div class="popup" id="finalPopup">
+            <button class="close-popup" id="closeFinalPopup">&times;</button>
+            <div class="popup-content">
+                <img src="img/squirrel_happy.png" alt="Счастливая белка" class="popup-image final-squirrel">
+                <h2 class="popup-title" id="finalTitle">🎉 Ура! Вулкан уснул!</h2>
+                <p class="popup-text" id="finalDescription">
+                    Белочка спасла Камчатку! Ты отлично шипел — 
+                    вулкан снова спит крепким сном. Молодец!
+                </p>
+                <button class="btn btn-primary" id="finalOk">Играть снова</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
