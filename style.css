@@ -1,6 +1,6 @@
 /* ============================================
    БЕЛКА-ПУТЕШЕСТВЕННИЦА: ЗВУК [Ш]
-   ФИНАЛЬНАЯ ВЕРСИЯ С УВЕЛИЧЕННЫМИ ПОПАПАМИ
+   ФИНАЛЬНАЯ ВЕРСИЯ
    ============================================ */
 
 :root {
@@ -387,197 +387,96 @@ body {
 }
 
 /* ============================================
-   АДАПТАЦИЯ ВУЛКАНА: МОБИЛЬНЫЙ ПОРТРЕТ
-   Вулкан по центру, белка крупно рядом
+   UI СЛОЙ (полёт)
    ============================================ */
-@media (max-width: 600px) and (orientation: portrait) {
-    /* Вулкан — по центру, занимает нижнюю половину */
-    .volcano-bg {
-        width: 85%;
-        max-width: none;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-    /* Белка — крупно, слева от центра, стоит на земле */
-    .volcano-squirrel {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-140%); /* Сдвиг влево от центра */
-        bottom: 5%;
-        width: 35%;
-        max-width: 160px;
-        z-index: 4;
-    }
-    
-    /* Инструкция — сверху по центру, компактная */
-    .volcano-instruction {
-        position: absolute;
-        right: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 5%;
-        width: 85%;
-        max-width: none;
-        z-index: 6;
-    }
-    
-    .instruction-card {
-        padding: 10px 14px;
-        border-radius: 16px;
-    }
-    
-    .instruction-card h2 {
-        font-size: 0.95rem;
-        margin-bottom: 4px;
-    }
-    
-    .instruction-card p {
-        font-size: 0.75rem;
-        line-height: 1.3;
-    }
-    
-    /* Кнопка — по центру, над вулканом */
-    .volcano-center {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 38%; /* Над верхушкой вулкана */
-        margin-bottom: 0;
-        z-index: 5;
-    }
-    
-    .shush-button {
-        padding: 14px 28px;
-        font-size: 1.2rem;
-    }
-    
-    .calm-bar {
-        width: 180px;
-        height: 10px;
-    }
-    
-    .calm-label {
-        font-size: 0.9rem;
-    }
-    
-    /* Дым — по центру вулкана */
-    .smoke-container {
-        left: 50%;
-        transform: translateX(-50%);
-    }
+.ui-layer {
+    flex: 0 0 auto;
+    padding: 12px 15px;
+    background: white;
+    box-shadow: 0 -3px 15px rgba(0,0,0,0.08);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    max-height: 40vh;
+    overflow-y: auto;
 }
 
-/* ============================================
-   АДАПТАЦИЯ ВУЛКАНА: ОЧЕНЬ МАЛЕНЬКИЙ ЭКРАН
-   ============================================ */
-@media (max-width: 380px) and (orientation: portrait) {
-    .volcano-squirrel {
-        width: 32%;
-        max-width: 130px;
-        transform: translateX(-135%);
-    }
-    
-    .instruction-card h2 {
-        font-size: 0.85rem;
-    }
-    
-    .instruction-card p {
-        font-size: 0.7rem;
-    }
-    
-    .shush-button {
-        padding: 12px 22px;
-        font-size: 1.05rem;
-    }
-    
-    .calm-bar {
-        width: 150px;
-    }
+.start-zone { text-align: center; }
+
+.btn {
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    font-family: 'Ubuntu', sans-serif;
+    white-space: nowrap;
+}
+.btn:active { transform: scale(0.95); }
+.btn-primary { background: var(--primary-color); color: white; }
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 140, 66, 0.4);
 }
 
-/* ============================================
-   АДАПТАЦИЯ ВУЛКАНА: ГОРИЗОНТАЛЬНАЯ ОРИЕНТАЦИЯ
-   ============================================ */
-@media (orientation: landscape) {
-    .volcano-squirrel { 
-        width: 15%; 
-        bottom: 15%; 
-        left: 3%;
-    }
-    .volcano-instruction { 
-        width: 20%; 
-        top: 15%; 
-        right: 3%;
-    }
-    
-    .volcano-center {
-        margin-bottom: 8%;
-    }
-    
-    .shush-button {
-        padding: 12px 28px;
-        font-size: 1.1rem;
-    }
+.action-zone {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
 }
 
-@media (orientation: landscape) and (max-height: 500px) {
-    .volcano-squirrel { 
-        width: 12%; 
-        bottom: 10%; 
-    }
-    .volcano-instruction { 
-        display: none; /* Прячем инструкцию на узких экранах */
-    }
-    
-    .volcano-center {
-        margin-bottom: 5%;
-    }
-    
-    .shush-button {
-        padding: 10px 22px;
-        font-size: 1rem;
-    }
-    
-    .calm-bar {
-        width: 160px;
-        height: 8px;
-    }
-    
-    .calm-label {
-        font-size: 0.8rem;
-    }
+.blow-button {
+    width: 100%;
+    max-width: 350px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 6px 12px rgba(78, 205, 196, 0.4);
+    transition: all 0.2s;
+    font-family: 'Ubuntu', sans-serif;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+}
+.blow-button:active, .blow-button.active {
+    transform: scale(0.97);
+    box-shadow: 0 3px 6px rgba(78, 205, 196, 0.4);
+    background: linear-gradient(135deg, #44a08d, #388e7e);
+}
+.blow-icon { font-size: 1.5rem; }
+
+.progress-bar {
+    width: 100%;
+    max-width: 350px;
+    height: 8px;
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+    border-radius: 10px;
+    transition: width 0.1s linear;
 }
 
-/* ============================================
-   АДАПТАЦИЯ ВУЛКАНА: ПЛАНШЕТЫ (от 768px)
-   ============================================ */
-@media (min-width: 768px) {
-    .volcano-squirrel { 
-        width: 18%; 
-        max-width: 220px; 
-        left: 8%;
-    }
-    .volcano-instruction { 
-        width: 22%; 
-        max-width: 280px; 
-        right: 5%;
-    }
-    .instruction-card { 
-        padding: 20px; 
-    }
-    .instruction-card h2 { 
-        font-size: 1.3rem; 
-    }
-    .instruction-card p { 
-        font-size: 1rem; 
-    }
-    .shush-button { 
-        padding: 22px 45px; 
-        font-size: 1.8rem; 
-    }
-}
 /* ============================================
    ПОПАПЫ (УВЕЛИЧЕННЫЕ, БЕЗ СКРОЛЛА)
    ============================================ */
@@ -654,7 +553,7 @@ body {
     justify-content: center;
 }
 
-/* Картинка белки — максимально крупная */
+/* Картинка — максимально крупная */
 .popup-image {
     width: 100%;
     max-width: 320px;
@@ -666,7 +565,7 @@ body {
     flex-shrink: 0;
 }
 
-/* Специально для финальной белки — ещё крупнее */
+/* Финальная белка — ещё крупнее */
 .popup-image.final-squirrel {
     max-width: 380px;
     max-height: 320px;
@@ -713,15 +612,17 @@ body {
 }
 
 /* ============================================
-   АДАПТИВНОСТЬ: МАЛЕНЬКИЕ ЭКРАНЫ (до 480px)
+   АДАПТИВНОСТЬ: МОБИЛЬНЫЙ ПОРТРЕТ (до 600px)
+   Вулкан по центру, белка крупно рядом
    ============================================ */
-@media (max-width: 480px) {
+@media (max-width: 600px) and (orientation: portrait) {
     .balloon-wrapper { width: 100px; left: -100px; }
     .ui-layer { padding: 10px 12px; gap: 6px; }
     .blow-button { padding: 12px 16px; font-size: 1rem; border-radius: 14px; }
     .blow-icon { font-size: 1.3rem; }
     .progress-bar { height: 7px; }
     .btn { padding: 10px 24px; font-size: 0.95rem; }
+    .flight-hint { font-size: 1rem; padding: 6px 14px; }
     
     /* Попапы */
     .popup { 
@@ -756,21 +657,89 @@ body {
         top: 8px; right: 10px; 
     }
     
-    /* Вулкан */
-    .volcano-squirrel { width: 22%; left: 2%; bottom: 5%; }
-    .volcano-instruction { width: 28%; right: 2%; top: 5%; }
-    .instruction-card { padding: 10px; }
-    .instruction-card h2 { font-size: 0.85rem; }
-    .instruction-card p { font-size: 0.7rem; }
-    .shush-button { padding: 14px 25px; }
+    /* === ВУЛКАН: мобильный портрет === */
+    /* Вулкан — по центру, занимает нижнюю половину */
+    .volcano-bg {
+        width: 85%;
+        max-width: none;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
     
-    .flight-hint { font-size: 1rem; padding: 6px 14px; }
+    /* Белка — крупно, слева от центра, стоит на земле */
+    .volcano-squirrel {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-140%);
+        bottom: 5%;
+        width: 35%;
+        max-width: 160px;
+        z-index: 4;
+    }
+    
+    /* Инструкция — сверху по центру, компактная */
+    .volcano-instruction {
+        position: absolute;
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 5%;
+        width: 85%;
+        max-width: none;
+        z-index: 6;
+    }
+    
+    .instruction-card {
+        padding: 10px 14px;
+        border-radius: 16px;
+    }
+    
+    .instruction-card h2 {
+        font-size: 0.95rem;
+        margin-bottom: 4px;
+    }
+    
+    .instruction-card p {
+        font-size: 0.75rem;
+        line-height: 1.3;
+    }
+    
+    /* Кнопка — по центру, над вулканом */
+    .volcano-center {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 38%;
+        margin-bottom: 0;
+        z-index: 5;
+    }
+    
+    .shush-button {
+        padding: 14px 28px;
+        font-size: 1.2rem;
+    }
+    
+    .calm-bar {
+        width: 180px;
+        height: 10px;
+    }
+    
+    .calm-label {
+        font-size: 0.9rem;
+    }
+    
+    /* Дым — по центру вулкана */
+    .smoke-container {
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
 
 /* ============================================
-   АДАПТИВНОСТЬ: ОЧЕНЬ МАЛЕНЬКИЕ ЭКРАНЫ (до 360px)
+   АДАПТИВНОСТЬ: ОЧЕНЬ МАЛЕНЬКИЙ ЭКРАН (до 380px)
    ============================================ */
-@media (max-width: 360px) {
+@media (max-width: 380px) and (orientation: portrait) {
     .balloon-wrapper { width: 85px; left: -85px; }
     .blow-button { padding: 10px 14px; font-size: 0.9rem; }
     
@@ -797,7 +766,29 @@ body {
         font-size: 0.88rem; 
     }
     
-    .volcano-instruction { display: none; }
+    /* Вулкан — ещё компактнее */
+    .volcano-squirrel {
+        width: 32%;
+        max-width: 130px;
+        transform: translateX(-135%);
+    }
+    
+    .instruction-card h2 {
+        font-size: 0.85rem;
+    }
+    
+    .instruction-card p {
+        font-size: 0.7rem;
+    }
+    
+    .shush-button {
+        padding: 12px 22px;
+        font-size: 1.05rem;
+    }
+    
+    .calm-bar {
+        width: 150px;
+    }
 }
 
 /* ============================================
@@ -842,13 +833,28 @@ body {
         text-align: left;
     }
     
-    .volcano-squirrel { width: 15%; bottom: 15%; }
-    .volcano-instruction { width: 20%; top: 15%; }
+    /* Вулкан в ландшафте */
+    .volcano-squirrel { 
+        width: 15%; 
+        bottom: 15%; 
+        left: 3%;
+    }
+    .volcano-instruction { 
+        width: 20%; 
+        top: 15%; 
+        right: 3%;
+    }
+    
+    .volcano-center {
+        margin-bottom: 8%;
+    }
+    
+    .shush-button {
+        padding: 12px 28px;
+        font-size: 1.1rem;
+    }
 }
 
-/* ============================================
-   АДАПТИВНОСТЬ: ГОРИЗОНТАЛЬНАЯ + МАЛЕНЬКИЙ ЭКРАН
-   ============================================ */
 @media (orientation: landscape) and (max-height: 500px) {
     .scene { flex: 3 1 auto; }
     .ui-layer { max-height: 40vh; padding: 6px 12px; gap: 5px; }
@@ -882,6 +888,33 @@ body {
         padding: 9px 18px; 
         font-size: 0.88rem; 
     }
+    
+    /* Вулкан на узких экранах */
+    .volcano-squirrel { 
+        width: 12%; 
+        bottom: 10%; 
+    }
+    .volcano-instruction { 
+        display: none;
+    }
+    
+    .volcano-center {
+        margin-bottom: 5%;
+    }
+    
+    .shush-button {
+        padding: 10px 22px;
+        font-size: 1rem;
+    }
+    
+    .calm-bar {
+        width: 160px;
+        height: 8px;
+    }
+    
+    .calm-label {
+        font-size: 0.8rem;
+    }
 }
 
 /* ============================================
@@ -910,12 +943,30 @@ body {
         font-size: 1.1rem; 
     }
     
-    .volcano-squirrel { width: 18%; max-width: 220px; }
-    .volcano-instruction { width: 22%; max-width: 280px; }
-    .instruction-card { padding: 20px; }
-    .instruction-card h2 { font-size: 1.3rem; }
-    .instruction-card p { font-size: 1rem; }
-    .shush-button { padding: 22px 45px; font-size: 1.8rem; }
+    /* Вулкан на планшетах */
+    .volcano-squirrel { 
+        width: 18%; 
+        max-width: 220px; 
+        left: 8%;
+    }
+    .volcano-instruction { 
+        width: 22%; 
+        max-width: 280px; 
+        right: 5%;
+    }
+    .instruction-card { 
+        padding: 20px; 
+    }
+    .instruction-card h2 { 
+        font-size: 1.3rem; 
+    }
+    .instruction-card p { 
+        font-size: 1rem; 
+    }
+    .shush-button { 
+        padding: 22px 45px; 
+        font-size: 1.8rem; 
+    }
 }
 
 /* ============================================
