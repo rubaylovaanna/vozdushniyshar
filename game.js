@@ -51,13 +51,11 @@ class SquirrelGame {
             gameWon: new Audio('sounds/game-won.mp3')
         };
 
-        // Настраиваем звуки
-        this.sounds.vulkan.loop = true;   // Зацикливаем звук вулкана
-        this.sounds.vulkan.volume = 0.6;  // Громкость вулкана (чтобы не оглушал)
+        this.sounds.vulkan.loop = true;
+        this.sounds.vulkan.volume = 0.6;
         this.sounds.levelup.volume = 0.8;
         this.sounds.gameWon.volume = 0.8;
 
-        // Предзагрузка звуков
         this.sounds.levelup.preload = 'auto';
         this.sounds.vulkan.preload = 'auto';
         this.sounds.gameWon.preload = 'auto';
@@ -168,7 +166,6 @@ class SquirrelGame {
     playSound(soundName) {
         const sound = this.sounds[soundName];
         if (sound) {
-            // Сбрасываем на начало (чтобы можно было проигрывать повторно)
             sound.currentTime = 0;
             sound.play().catch(err => {
                 console.warn(`Не удалось воспроизвести звук ${soundName}:`, err);
