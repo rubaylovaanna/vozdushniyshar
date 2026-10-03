@@ -478,7 +478,7 @@ body {
 }
 
 /* ============================================
-   ПОПАПЫ (ШИРОКИЙ ДЕСКТОПНЫЙ LAYOUT)
+   ПОПАПЫ (ЗАГОЛОВОК → ТЕКСТ → КНОПКА СВЕРХУ ВНИЗ)
    ============================================ */
 .popup__bg {
     position: fixed;
@@ -519,7 +519,6 @@ body {
     opacity: 1;
 }
 
-/* Крестик — в правом верхнем углу попапа */
 .close-popup {
     position: absolute;
     top: 18px; 
@@ -546,11 +545,11 @@ body {
     transform: rotate(90deg);
 }
 
-/* Двухколоночный layout: картинка + текст */
+/* Двухколоночный layout: картинка слева, текст справа СВЕРХУ */
 .popup-content {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     gap: 40px;
     width: 100%;
 }
@@ -560,7 +559,7 @@ body {
     width: 42%;
     max-width: 420px;
     height: auto;
-    max-height: 450px;
+    max-height: 520px;
     object-fit: contain;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
@@ -569,10 +568,10 @@ body {
 
 .popup-image.final-squirrel {
     max-width: 440px;
-    max-height: 480px;
+    max-height: 540px;
 }
 
-/* Правая колонка — заголовок + текст + кнопка */
+/* Правая колонка — заголовок → текст → кнопка (сверху вниз) */
 .popup-text-content {
     flex: 1;
     display: flex;
@@ -580,7 +579,8 @@ body {
     gap: 18px;
     min-width: 0;
     text-align: left;
-    padding-right: 50px; /* Отступ, чтобы не наезжать на крестик */
+    padding-right: 50px;
+    padding-top: 10px;
 }
 
 .popup-title {
@@ -589,6 +589,7 @@ body {
     font-weight: 700;
     margin: 0;
     line-height: 1.15;
+    order: 1;
 }
 
 .popup-text {
@@ -597,6 +598,7 @@ body {
     color: #444;
     font-weight: 400;
     margin: 0;
+    order: 2;
 }
 
 .popup-text strong {
@@ -611,6 +613,7 @@ body {
     margin-top: 8px;
     align-self: flex-start;
     border-radius: 50px;
+    order: 3;
 }
 
 .confetti {
@@ -639,6 +642,7 @@ body {
     
     .popup-content {
         flex-direction: column;
+        align-items: center;
         gap: 25px;
     }
     
@@ -657,6 +661,7 @@ body {
         text-align: center;
         align-items: center;
         padding-right: 0;
+        padding-top: 0;
     }
     
     .popup-text-content .btn {
@@ -684,7 +689,6 @@ body {
     .btn { padding: 10px 24px; font-size: 0.95rem; }
     .flight-hint { font-size: 1rem; padding: 6px 14px; }
     
-    /* Попапы */
     .popup { 
         padding: 28px 22px; 
         border-radius: 24px; 
@@ -693,6 +697,7 @@ body {
     }
     .popup-content {
         flex-direction: column;
+        align-items: center;
         gap: 18px;
     }
     .popup-image { 
@@ -708,6 +713,7 @@ body {
         text-align: center;
         align-items: center;
         padding-right: 0;
+        padding-top: 0;
         gap: 14px;
     }
     .popup-title { 
@@ -832,7 +838,6 @@ body {
         font-size: 0.92rem; 
     }
     
-    /* Вулкан */
     .volcano-squirrel {
         width: 32%;
         max-width: 130px;
@@ -866,7 +871,6 @@ body {
     .balloon-wrapper { width: 100px; left: -100px; }
     .blow-button { max-width: 300px; padding: 10px 18px; font-size: 1rem; }
     
-    /* Попапы — горизонтальный layout */
     .popup { 
         max-height: 88dvh; 
         width: 92%;
@@ -875,6 +879,7 @@ body {
     }
     .popup-content {
         flex-direction: row;
+        align-items: flex-start;
         gap: 30px;
     }
     .popup-image { 
@@ -888,6 +893,7 @@ body {
     }
     .popup-text-content {
         padding-right: 45px;
+        padding-top: 5px;
     }
     .popup-title {
         font-size: 1.7rem;
@@ -897,7 +903,6 @@ body {
         line-height: 1.45; 
     }
     
-    /* Вулкан в ландшафте */
     .volcano-squirrel { 
         width: 15%; 
         bottom: 15%; 
@@ -952,7 +957,6 @@ body {
         font-size: 0.95rem; 
     }
     
-    /* Вулкан на узких экранах */
     .volcano-squirrel { 
         width: 12%; 
         bottom: 10%; 
@@ -987,7 +991,6 @@ body {
     .balloon-wrapper { width: 150px; left: -150px; }
     .blow-button { max-width: 400px; padding: 16px 24px; font-size: 1.2rem; }
     
-    /* Вулкан на планшетах */
     .volcano-squirrel { 
         width: 18%; 
         max-width: 220px; 
@@ -1014,7 +1017,7 @@ body {
 }
 
 /* ============================================
-   АДАПТИВНОСТЬ: ВЫСОКИЕ ЭКРАНЫ (большие телефоны)
+   АДАПТИВНОСТЬ: ВЫСОКИЕ ЭКРАНЫ
    ============================================ */
 @media (min-height: 800px) {
     .ui-layer { padding: 15px 20px; gap: 10px; }
