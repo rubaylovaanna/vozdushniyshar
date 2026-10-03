@@ -30,6 +30,9 @@
             <div class="balloon-wrapper" id="balloonWrapper">
                 <img src="img/balloon.png" alt="Воздушный шар с белкой" class="balloon-image">
             </div>
+
+            <!-- Подсказка направления полёта -->
+            <div class="flight-hint" id="flightHint"></div>
         </section>
 
         <!-- Экран «Усыпи вулкан» (скрыт по умолчанию) -->
@@ -67,7 +70,6 @@
             <!-- Кнопка по центру -->
             <div class="volcano-center">
                 <button class="shush-button" id="shushBtn" oncontextmenu="return false;">
-                    <span class="shush-icon"></span>
                     <span class="shush-text">Ш-Ш-Ш!</span>
                 </button>
                 <div class="calm-bar">
@@ -126,7 +128,7 @@
         </div>
     </div>
 
-    <!-- ФИНАЛЬНЫЙ ПОПАП (счастливый) -->
+    <!-- ФИНАЛЬНЫЙ ПОПАП -->
     <div class="popup__bg" id="finalPopupBg">
         <div class="popup" id="finalPopup">
             <button class="close-popup" id="closeFinalPopup">&times;</button>
