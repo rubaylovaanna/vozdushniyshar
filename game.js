@@ -44,6 +44,24 @@ class SquirrelGame {
         this.moveInterval = null;
         this.volcanoInterval = null;
 
+        // === ЗВУКИ ===
+        this.sounds = {
+            levelup: new Audio('sounds/levelup.mp3'),
+            vulkan: new Audio('sounds/vulkan.mp3'),
+            gameWon: new Audio('sounds/game-won.mp3')
+        };
+
+        // Настраиваем звуки
+        this.sounds.vulkan.loop = true;   // Зацикливаем звук вулкана
+        this.sounds.vulkan.volume = 0.6;  // Громкость вулкана (чтобы не оглушал)
+        this.sounds.levelup.volume = 0.8;
+        this.sounds.gameWon.volume = 0.8;
+
+        // Предзагрузка звуков
+        this.sounds.levelup.preload = 'auto';
+        this.sounds.vulkan.preload = 'auto';
+        this.sounds.gameWon.preload = 'auto';
+
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.init());
         } else {
@@ -146,6 +164,26 @@ class SquirrelGame {
     openPopup(popup)  { popup.bg.classList.add('active'); }
     closePopup(popup) { popup.bg.classList.remove('active'); }
 
+    // === УПРАВЛЕНИЕ ЗВУКАМИ ===
+    playSound(soundName) {
+        const sound = this.sounds[soundName];
+        if (sound) {
+            // Сбрасываем на начало (чтобы можно было проигрывать повторно)
+            sound.currentTime = 0;
+            sound.play().catch(err => {
+                console.warn(`Не удалось воспроизвести звук ${soundName}:`, err);
+            });
+        }
+    }
+
+    stopSound(soundName) {
+        const sound = this.sounds[soundName];
+        if (sound) {
+            sound.pause();
+            sound.currentTime = 0;
+        }
+    }
+
     startGame() {
         this.els.startZone.style.display = 'none';
         this.els.actionZone.style.display = 'flex';
@@ -229,6 +267,9 @@ class SquirrelGame {
         this.landmarkPopup.title.textContent = location.name;
         this.landmarkPopup.description.textContent = location.description;
         this.openPopup(this.landmarkPopup);
+        
+        // 🎵 Звук при попапе достопримечательности
+        this.playSound('levelup');
     }
 
     nextLevel() {
@@ -260,6 +301,9 @@ class SquirrelGame {
         this.els.calmFill.style.width = '0%';
         this.els.calmLabel.textContent = 'Вулкан бушует!';
         this.els.volcanoScreen.classList.remove('calm');
+        
+        // 🎵 Запускаем зацикленный звук вулкана
+        this.playSound('vulkan');
     }
 
     startShushing() {
@@ -315,6 +359,9 @@ class SquirrelGame {
         this.els.calmFill.style.width = '100%';
         this.els.calmLabel.textContent = 'Вулкан уснул! 💤';
         
+        // 🎵 Останавливаем звук вулкана
+        this.stopSound('vulkan');
+        
         setTimeout(() => {
             this.showFinal();
         }, 1500);
@@ -325,6 +372,10 @@ class SquirrelGame {
         this.els.volcanoScreen.style.display = 'none';
         
         this.openPopup(this.finalPopup);
+        
+        // 🎵 Финальная фанфара
+        this.playSound('gameWon');
+        
         this.createConfetti();
     }
 
