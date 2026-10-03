@@ -5,7 +5,7 @@ class SquirrelGame {
             isMoving: false,
             currentLocation: 0,
             progress: 0,
-            volcanoCalm: 0,      // Уровень «успокоения» вулкана (0-100)
+            volcanoCalm: 0,
             isVolcanoActive: false,
             locations: [
                 { 
@@ -15,22 +15,22 @@ class SquirrelGame {
                     description: 'Белочка пролетает над красивым городом на Неве. Впереди виден величественный Исаакиевский собор с огромным золотым куполом!'
                 },
                 { 
-                    bg: 'img/bg_forest.png',
-                    landmark: 'img/kizhi.png',
-                    name: 'Кижи',
-                    description: 'Внизу раскинулся зелёный лес с соснами и полянами. А там — остров Кижи со знаменитым храмом, построенным без единого гвоздя!'
-                },
-                { 
-                    bg: 'img/bg_mountain.png',
+                    bg: 'img/bg_dagestan.png',
                     landmark: 'img/dagestan.png',
                     name: 'Дагестан',
-                    description: 'Воздушный шар поднимается к снежным вершинам гор. Внизу — глубокие каньоны Дагестана с бирюзовой рекой!'
+                    description: 'Воздушный шар поднимается к горным вершинам. Внизу — глубокие каньоны Дагестана с бирюзовой рекой Сулак!'
                 },
                 { 
-                    bg: 'img/bg_sea.png',
-                    landmark: 'img/mayak.png',
-                    name: 'Куршская коса',
-                    description: 'Белочка видит бескрайнее море с белыми парусниками. На берегу стоит старинный маяк на Куршской косе!'
+                    bg: 'img/bg_sochi.png',
+                    landmark: 'img/sochi_port.png',
+                    name: 'Сочи',
+                    description: 'Белочка летит над Чёрным морем! Внизу — красивый морской порт Сочи с яхтами и кораблями.'
+                },
+                { 
+                    bg: 'img/bg_kaliningrad.png',
+                    landmark: 'img/kaliningrad_mayak.png',
+                    name: 'Калининград',
+                    description: 'Впереди — берег Балтийского моря. На дюнах стоит старинный маяк в Калининградской области!'
                 },
                 { 
                     bg: 'img/bg_kamchatka.png',
@@ -65,8 +65,8 @@ class SquirrelGame {
             bgImg: document.getElementById('bgImg'),
             scene: document.getElementById('scene'),
             uiLayer: document.getElementById('uiLayer'),
+            flightHint: document.getElementById('flightHint'),
             
-            // Элементы экрана вулкана
             volcanoScreen: document.getElementById('volcanoScreen'),
             smokeContainer: document.getElementById('smokeContainer'),
             shushBtn: document.getElementById('shushBtn'),
@@ -169,6 +169,7 @@ class SquirrelGame {
         this.state.isMoving = false;
         this.els.blowBtn.classList.remove('active');
         clearInterval(this.moveInterval);
+        this.els.flightHint.classList.remove('visible');
     }
 
     updateProgress() {
@@ -192,10 +193,33 @@ class SquirrelGame {
         const centerY = (sceneHeight - balloonHeight) / 2;
         const amplitude = sceneHeight * 0.45;
         const frequency = 2;
-        const currentY = centerY + amplitude * Math.sin((this.state.progress / 100) * Math.PI * 2 * frequency);
+        const angle = (this.state.progress / 100) * Math.PI * 2 * frequency;
+        const currentY = centerY + amplitude * Math.sin(angle);
         
         this.els.balloonWrapper.style.left = `${currentX}px`;
         this.els.balloonWrapper.style.top  = `${currentY}px`;
+
+        this.updateFlightHint(currentX, currentY, balloonWidth, balloonHeight, angle);
+    }
+
+    updateFlightHint(x, y, balloonWidth, balloonHeight, angle) {
+        const hint = this.els.flightHint;
+        const direction = Math.cos(angle);
+        
+        if (direction < 0) {
+            hint.textContent = '↑ Вдох';
+            hint.className = 'flight-hint visible inhale';
+        } else {
+            hint.textContent = '↓ Ш-Ш-Ш';
+            hint.className = 'flight-hint visible exhale';
+        }
+        
+        const hintX = x + balloonWidth / 2;
+        const hintY = y - 50;
+        
+        hint.style.left = `${hintX}px`;
+        hint.style.top  = `${hintY}px`;
+        hint.style.transform = 'translateX(-50%)';
     }
 
     showLandmark() {
@@ -210,7 +234,6 @@ class SquirrelGame {
     nextLevel() {
         this.state.currentLocation++;
 
-        // Если прошли все 5 локаций — запускаем мини-игру «Усыпи вулкан»
         if (this.state.currentLocation >= this.state.locations.length) {
             this.startVolcanoGame();
             return;
@@ -228,14 +251,10 @@ class SquirrelGame {
        МИНИ-ИГРА «УСЫПИ ВУЛКАН»
        ============================================ */
     startVolcanoGame() {
-        // Скрываем UI полёта и сцену
         this.els.uiLayer.style.display = 'none';
         this.els.scene.style.display = 'none';
-        
-        // Показываем экран вулкана
         this.els.volcanoScreen.style.display = 'flex';
         
-        // Сброс состояния
         this.state.volcanoCalm = 0;
         this.state.isVolcanoActive = true;
         this.els.calmFill.style.width = '0%';
@@ -255,7 +274,6 @@ class SquirrelGame {
     }
 
     updateVolcano() {
-        // Увеличиваем «успокоение» (медленнее, чем полёт — 0.3 за тик)
         this.state.volcanoCalm += 0.3;
         
         if (this.state.volcanoCalm >= 100) {
@@ -266,18 +284,14 @@ class SquirrelGame {
 
         this.els.calmFill.style.width = `${this.state.volcanoCalm}%`;
 
-        // Обновляем opacity слоёв дыма (чем больше calm, тем меньше дыма)
         const smokeOpacity = 1 - (this.state.volcanoCalm / 100);
         const smokeLayers = this.els.smokeContainer.querySelectorAll('.smoke-layer');
         smokeLayers.forEach((layer, index) => {
-            // Каждый слой исчезает чуть раньше предыдущего
             const layerThreshold = (index / smokeLayers.length);
             const layerOpacity = Math.max(0, smokeOpacity - layerThreshold * 0.3);
-            layer.style.setProperty('--current-opacity', layerOpacity);
             layer.style.opacity = layerOpacity;
         });
 
-        // Меняем текст в зависимости от прогресса
         if (this.state.volcanoCalm < 30) {
             this.els.calmLabel.textContent = 'Вулкан бушует!';
         } else if (this.state.volcanoCalm < 60) {
@@ -293,7 +307,6 @@ class SquirrelGame {
         this.stopShushing();
         this.state.isVolcanoActive = false;
         
-        // Полностью скрываем дым
         const smokeLayers = this.els.smokeContainer.querySelectorAll('.smoke-layer');
         smokeLayers.forEach(layer => {
             layer.style.opacity = '0';
@@ -302,14 +315,12 @@ class SquirrelGame {
         this.els.calmFill.style.width = '100%';
         this.els.calmLabel.textContent = 'Вулкан уснул! 💤';
         
-        // Небольшая задержка перед финальным попапом
         setTimeout(() => {
             this.showFinal();
         }, 1500);
     }
 
     showFinal() {
-        // Возвращаем видимость сцены (для конфетти)
         this.els.scene.style.display = 'block';
         this.els.volcanoScreen.style.display = 'none';
         
