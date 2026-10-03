@@ -478,7 +478,7 @@ body {
 }
 
 /* ============================================
-   ПОПАПЫ (ЗАГОЛОВОК → ТЕКСТ → КНОПКА СВЕРХУ ВНИЗ)
+   ПОПАПЫ (ДВУХКОЛОНОЧНЫЙ LAYOUT)
    ============================================ */
 .popup__bg {
     position: fixed;
@@ -497,7 +497,10 @@ body {
     z-index: 100;
     padding: 20px;
 }
-.popup__bg.active { opacity: 1; pointer-events: auto; }
+.popup__bg.active { 
+    opacity: 1; 
+    pointer-events: auto; 
+}
 
 .popup {
     background: white;
@@ -545,7 +548,7 @@ body {
     transform: rotate(90deg);
 }
 
-/* Двухколоночный layout: картинка слева, текст справа СВЕРХУ */
+/* Двухколоночный layout */
 .popup-content {
     display: flex;
     flex-direction: row;
@@ -554,32 +557,36 @@ body {
     width: 100%;
 }
 
-/* Левая колонка — картинка */
-.popup-image {
-    width: 42%;
+/* Левая колонка — только картинка */
+.popup-left {
+    flex: 0 0 42%;
     max-width: 420px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.popup-image {
+    width: 100%;
     height: auto;
     max-height: 520px;
     object-fit: contain;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-    flex-shrink: 0;
 }
 
 .popup-image.final-squirrel {
-    max-width: 440px;
     max-height: 540px;
 }
 
-/* Правая колонка — заголовок → текст → кнопка (сверху вниз) */
-.popup-text-content {
+/* Правая колонка — заголовок, текст, кнопка */
+.popup-right {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 18px;
     min-width: 0;
     text-align: left;
-    padding-right: 50px;
     padding-top: 10px;
 }
 
@@ -589,7 +596,6 @@ body {
     font-weight: 700;
     margin: 0;
     line-height: 1.15;
-    order: 1;
 }
 
 .popup-text {
@@ -598,7 +604,6 @@ body {
     color: #444;
     font-weight: 400;
     margin: 0;
-    order: 2;
 }
 
 .popup-text strong {
@@ -606,14 +611,12 @@ body {
     font-weight: 700;
 }
 
-/* Кнопка внутри правой колонки */
-.popup-text-content .btn {
+.popup-btn {
     padding: 16px 36px;
     font-size: 1.1rem;
     margin-top: 8px;
     align-self: flex-start;
     border-radius: 50px;
-    order: 3;
 }
 
 .confetti {
@@ -646,25 +649,27 @@ body {
         gap: 25px;
     }
     
-    .popup-image {
-        width: 60%;
+    .popup-left {
+        flex: 0 0 auto;
         max-width: 300px;
+        width: 60%;
+    }
+    
+    .popup-image {
         max-height: 320px;
     }
     
     .popup-image.final-squirrel {
-        max-width: 340px;
         max-height: 360px;
     }
     
-    .popup-text-content {
+    .popup-right {
         text-align: center;
         align-items: center;
-        padding-right: 0;
         padding-top: 0;
     }
     
-    .popup-text-content .btn {
+    .popup-btn {
         align-self: center;
     }
     
@@ -700,19 +705,19 @@ body {
         align-items: center;
         gap: 18px;
     }
-    .popup-image { 
+    .popup-left {
         width: 70%;
-        max-width: 240px; 
+        max-width: 240px;
+    }
+    .popup-image { 
         max-height: 240px; 
     }
     .popup-image.final-squirrel {
-        max-width: 260px;
         max-height: 260px;
     }
-    .popup-text-content {
+    .popup-right {
         text-align: center;
         align-items: center;
-        padding-right: 0;
         padding-top: 0;
         gap: 14px;
     }
@@ -723,7 +728,7 @@ body {
         font-size: 0.95rem; 
         line-height: 1.45; 
     }
-    .popup-text-content .btn { 
+    .popup-btn { 
         padding: 12px 28px; 
         font-size: 1rem; 
         align-self: center;
@@ -818,12 +823,13 @@ body {
     .popup { 
         padding: 20px 16px; 
     }
+    .popup-left {
+        max-width: 200px;
+    }
     .popup-image { 
-        max-width: 200px; 
         max-height: 200px; 
     }
     .popup-image.final-squirrel {
-        max-width: 220px;
         max-height: 220px;
     }
     .popup-title { 
@@ -833,7 +839,7 @@ body {
         font-size: 0.88rem; 
         line-height: 1.4;
     }
-    .popup-text-content .btn { 
+    .popup-btn { 
         padding: 11px 22px; 
         font-size: 0.92rem; 
     }
@@ -882,17 +888,17 @@ body {
         align-items: flex-start;
         gap: 30px;
     }
-    .popup-image { 
-        width: 38%;
-        max-height: 75dvh;
+    .popup-left {
+        flex: 0 0 38%;
         max-width: 320px;
-        flex-shrink: 0;
+    }
+    .popup-image { 
+        max-height: 75dvh;
     }
     .popup-image.final-squirrel {
         max-width: 360px;
     }
-    .popup-text-content {
-        padding-right: 45px;
+    .popup-right {
         padding-top: 5px;
     }
     .popup-title {
@@ -938,9 +944,11 @@ body {
         padding: 22px 30px; 
         width: 95%;
     }
+    .popup-left {
+        max-width: 220px;
+    }
     .popup-image { 
         max-height: 70dvh;
-        max-width: 220px; 
     }
     .popup-image.final-squirrel {
         max-width: 240px;
@@ -952,7 +960,7 @@ body {
         font-size: 0.92rem; 
         line-height: 1.35; 
     }
-    .popup-text-content .btn { 
+    .popup-btn { 
         padding: 10px 24px; 
         font-size: 0.95rem; 
     }
